@@ -1,0 +1,57 @@
+    <!doctype html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1"/>
+      <title>Learning Resources</title>
+      <link rel="stylesheet" href="../css/style.css"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    </head>
+    <body class="bg-animated">
+      <div id="app">
+        <div id="sidebar"></div>
+        <main class="content container">
+          <h1>Learning Resources</h1>
+
+<div class="toolbar resources-toolbar">
+  <div class="tags" id="typeTags">
+    <button class="tag active" data-type="All">All</button>
+    <button class="tag" data-type="PDF">PDF</button>
+    <button class="tag" data-type="Video">Video</button>
+    <button class="tag" data-type="Article">Article</button>
+    <button class="tag" data-type="Slide">Slide</button>
+  </div>
+  <div class="search">
+    <input id="resSearch" class="input" placeholder="Search title or type..." oninput="renderResources()"/>
+  </div>
+</div>
+
+<div id="resList" class="grid fade-in"></div>
+
+<!-- Preview Modal -->
+<div id="modalOverlay" class="modal-overlay" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+    <img id="modalImg" class="modal-img" src="" alt="preview"/>
+    <h2 id="modalTitle">Title</h2>
+    <p class="muted" id="modalType">Type</p>
+    <div class="modal-actions">
+      <a id="modalOpen" class="btn" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open</a>
+      <button id="modalFav" class="btn outline" onclick="toggleFavoriteFromModal()"><i class="fa-regular fa-heart"></i> Favorite</button>
+    </div>
+  </div>
+</div>
+
+        </main>
+      </div>
+      <script>
+        fetch('../partials/sidebar.html').then(r=>r.text()).then(html=>{
+          document.getElementById('sidebar').innerHTML = html;
+          const path = location.pathname.split('/').pop();
+          document.querySelectorAll('.sidebar nav a').forEach(a=>{ if(a.getAttribute('href')===path) a.classList.add('active'); });
+        });
+      </script>
+      <script src="../js/fake-db.js"></script>
+      <script src="../js/main.js"></script>
+    </body>
+    </html>

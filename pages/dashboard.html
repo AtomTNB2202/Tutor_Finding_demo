@@ -1,0 +1,78 @@
+    <!doctype html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1"/>
+      <title>Dashboard</title>
+      <link rel="stylesheet" href="../css/style.css"/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    </head>
+    <body class="bg-animated">
+      <div id="app">
+        <div id="sidebar"></div>
+        <main class="content container">
+          <header class="header-welcome fade-in">
+  <div class="left">
+    <h1 id="welcomeTitle">Welcome back 👋</h1>
+    <p class="muted" id="welcomeSub">
+      <span id="summaryMajor">—</span> | GPA: <strong id="summaryGPA">—</strong> | Credits: <strong id="summaryCredits">—</strong>
+    </p>
+  </div>
+  <div class="right">
+    <img id="studentAvatar" class="avatar-lg" src="https://i.pravatar.cc/120?img=55" alt="avatar"/>
+  </div>
+</header>
+
+<section class="grid-3 stats fade-in">
+  <div class="card stat-card gradient-blue">
+    <div class="kpi"><div class="kpi-num" id="kpiCourses">0</div><div class="kpi-title">Courses in Progress</div></div>
+    <i class="fa-solid fa-book-open kpi-icon"></i>
+  </div>
+  <div class="card stat-card gradient-green">
+    <div class="kpi"><div class="kpi-num" id="kpiSections">0</div><div class="kpi-title">Upcoming Sections</div></div>
+    <i class="fa-solid fa-calendar-check kpi-icon"></i>
+  </div>
+  <div class="card stat-card gradient-red">
+    <div class="kpi"><div class="kpi-num" id="kpiFeedback">0</div><div class="kpi-title">New Feedbacks</div></div>
+    <i class="fa-regular fa-message kpi-icon"></i>
+  </div>
+</section>
+
+<section class="grid-2 mt">
+  <section class="card fade-in">
+    <h2>Upcoming Sections</h2>
+    <table class="table lift-on-hover" id="upcomingTable">
+      <thead><tr><th>Date</th><th>Time</th><th>Tutor</th><th>Section</th><th>Type</th><th>Action</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="card fade-in">
+    <h2>Progress Overview</h2>
+    <div class="donut-wrap">
+      <canvas id="progressDonut" width="220" height="220"></canvas>
+      <div class="donut-center"><span id="progressPercent">80%</span><small>Completed</small></div>
+    </div>
+    <ul class="legend"><li><span class="dot dot-blue"></span>Attended</li><li><span class="dot dot-gray"></span>Remaining</li></ul>
+    <div class="recent-activity mt"><h3 class="h3">Recent Activity</h3><ul id="activityList" class="list"></ul></div>
+  </section>
+</section>
+
+<section class="card mt slide-up">
+  <h2>Important Announcements</h2>
+  <ul id="announcementList" class="ann-list"></ul>
+</section>
+
+        </main>
+      </div>
+      <script>
+        fetch('../partials/sidebar.html').then(r=>r.text()).then(html=>{
+          document.getElementById('sidebar').innerHTML = html;
+          const path = location.pathname.split('/').pop();
+          document.querySelectorAll('.sidebar nav a').forEach(a=>{ if(a.getAttribute('href')===path) a.classList.add('active'); });
+        });
+      </script>
+      <script src="../js/fake-db.js"></script>
+      <script src="../js/main.js"></script>
+    </body>
+    </html>
