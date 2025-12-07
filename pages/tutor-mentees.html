@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Tutor Mentees</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="bg-animated">
+  <div id="app">
+    <!-- Sidebar Tutor -->
+    <div id="sidebar"></div>
+
+    <main class="content container">
+      <header class="header-welcome fade-in">
+        <div class="left">
+          <h1>Mentees</h1>
+          <p class="muted">
+            Overview of students you are currently mentoring.
+          </p>
+        </div>
+      </header>
+
+      <section class="card mt fade-in">
+        <h2>Mentee List</h2>
+        <table class="table lift-on-hover" id="tutorMenteeTable">
+          <thead>
+            <tr>
+              <th>Mentee ID</th>
+              <th>Main Subject</th>
+              <th>Sessions</th>
+              <th>Progress</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- JS (loadTutorMentees) sẽ fill -->
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <!-- Load sidebar tutor -->
+  <script>
+    fetch('../partials/sidebar-tutor.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('sidebar').innerHTML = html;
+        const path = location.pathname.split('/').pop();
+        document
+          .querySelectorAll('.sidebar nav a')
+          .forEach(a => {
+            if (a.getAttribute('href') === path) {
+              a.classList.add('active');
+            }
+          });
+      });
+  </script>
+  <script src="../js/main.js"></script>
+</body>
+</html>
