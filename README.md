@@ -1,185 +1,103 @@
-# Tutor Finding Demo 🧑‍🎓🧑‍🏫
+# Tutor Finding Demo
 
-Demo giao diện web cho hệ thống **Tutor Support / Tutor Finding**, mô phỏng hai kiểu tài khoản:
-- **Student**: xem tổng quan học tập, lịch hẹn, tài liệu học.
-- **Tutor**: xem lịch dạy, các buổi support của riêng mình.
+Đây là một demo web mô phỏng hệ thống **Tutor Support / Tutor Finding** dùng cho assignment môn SE:
 
-Toàn bộ hệ thống chỉ dùng **HTML + CSS + JavaScript (fake database)**, không cần backend hay database thật.
+- 🧑‍🎓 **Student Portal**: sinh viên đăng nhập, xem dashboard, xem lịch học, tìm tutor, đặt slot, gửi feedback sau mỗi buổi.
+- 🧑‍🏫 **Tutor Portal**: tutor đăng nhập vào giao diện riêng, xem lịch dạy, tự đăng ký availability (slot), theo dõi mentee, quản lý tài liệu và xem thống kê profile.
+- 🧪 **Fake backend nhưng chạy server thật**: sử dụng Node.js + Express với dữ liệu lưu tạm trong `server/data.js` (không dùng database), đủ để demo full flow end-to-end.
 
----
+Hệ thống được thiết kế để **dễ cài, dễ chạy, dễ demo** trên máy cá nhân và phục vụ thuyết trình cho đồ án.
 
-## 🗂 Cấu trúc project
+🚀 Cách chạy dự án (Local Setup)
+1. Yêu cầu môi trường
 
-```bash
-Tutor_Finding_demo/
-├── index.html          # Trang login
-├── css/
-│   └── style.css       # Giao diện chung (Material-style)
-├── js/
-│   ├── fake-db.js      # Fake database: users, tutors, sessions, resources
-│   └── main.js         # Logic login, route trang, render Dashboard/Schedule/...
-├── pages/
-│   ├── dashboard.html  # Dashboard chính sau khi login
-│   ├── schedule.html   # Lịch học / lịch dạy
-│   ├── mentee-info.html# Danh sách tutor / mentee (tùy role)
-│   ├── resources.html  # Học liệu (slides, article, video, ...)
-│   └── profile.html    # Trang profile người dùng
-└── partials/
-    └── sidebar.html    # Sidebar dùng chung các trang trong /pages
-⚙️ Yêu cầu môi trường
-Vì project có dùng fetch() để load partials/sidebar.html, bạn không nên mở file bằng cách double–click.
+Node.js ≥ 16
 
-Khuyến nghị:
+npm
 
-VS Code
+Trình duyệt hiện đại (Chrome / Edge / Firefox)
 
-Extension: Live Server (tác giả: Ritwick Dey)
+(Khuyến nghị) VS Code + extension Live Server (Ritwick Dey)
 
-Hoặc bất kỳ static web server nào (nginx, http-server, serve, …) nếu bạn quen dùng.
-
-🚀 Cách chạy project bằng VS Code + Live Server
-Clone repo (hoặc tải ZIP rồi giải nén):
-
-bash
-Sao chép mã
+2. Clone project
 git clone https://github.com/AtomTNB2202/Tutor_Finding_demo.git
 cd Tutor_Finding_demo
-Mở folder bằng VS Code
 
-File → Open Folder… → chọn Tutor_Finding_demo
+3. Chạy backend (fake API server)
 
-Cài extension Live Server (nếu chưa có)
+Backend dùng Node + Express, dữ liệu lưu tạm thời trong server/data.js (không có database thật).
 
-Mở tab Extensions (Ctrl + Shift + X)
+cd server
+npm install        # cài dependencies cho backend
+node server.js     # chạy backend
 
-Tìm: Live Server – tác giả Ritwick Dey → Install
 
-Chạy Live Server
+Nếu thành công, terminal sẽ hiển thị tương tự:
 
-Chuột phải vào file index.html → Open with Live Server
+API server running at http://localhost:4000
 
-Trình duyệt sẽ mở, dạng URL:
+
+🔄 Mỗi lần bạn sửa server.js hoặc data.js, hãy Ctrl + C để dừng server rồi chạy lại node server.js.
+
+4. Chạy frontend (web tĩnh)
+
+Frontend là HTML/CSS/JS thuần, có thể chạy bằng bất kỳ static server nào.
+
+Cách 1 – Dùng VS Code + Live Server (khuyến nghị)
+
+Quay về thư mục gốc project:
+
+cd ..   # đang ở /server, quay lại Tutor_Finding_demo
+code .  # mở project bằng VS Code
+
+
+Trong VS Code:
+
+Cài extension Live Server (tác giả: Ritwick Dey).
+
+Click chuột phải vào file index.html → chọn “Open with Live Server”.
+
+Trình duyệt sẽ tự mở URL dạng:
+
 http://127.0.0.1:5500/index.html
-(hoặc http://localhost:5500/index.html)
 
-🎉 Giao diện login xuất hiện → sẵn sàng để test account.
 
-👤 Tài khoản demo
-Hệ thống không kiểm tra mật khẩu thật, chỉ cần:
+Đây là trang Login của hệ thống.
 
-Email phải là @hcmut.edu.vn
+Cách 2 – Dùng http-server (nếu không dùng VS Code)
+cd Tutor_Finding_demo   # đảm bảo đang ở thư mục gốc
+npm install -g http-server
+http-server .
 
-Password không được để trống
 
-🔵 Student demo
-Bạn có thể dùng bất kỳ email HCMUT nào không trùng email tutor, ví dụ:
+Sau đó mở trình duyệt theo link in trong terminal, ví dụ:
 
-khoi@hcmut.edu.vn
+http://127.0.0.1:8080/index.html
 
-student1@hcmut.edu.vn
+5. Tài khoản demo
 
-Mật khẩu: nhập gì cũng được (ví dụ 123456).
+Các tài khoản demo được khai báo trong server/data.js. Ví dụ:
 
-Khi login bằng email kiểu này:
+🧑‍🎓 Student
 
-Role: student
+Email: khoi@hcmut.edu.vn
 
-Dashboard: thấy toàn bộ các buổi hỗ trợ (sessions) trong fake database.
+Mật khẩu: 123456
 
-Schedule: lịch học sinh viên.
+🧑‍🏫 Tutor
 
-Mentee Info: danh sách tutor.
+Email: tutor.thoai@hcmut.edu.vn
 
-Resources: danh sách tài liệu học.
+Mật khẩu: 123456
 
-Profile: xem/chỉnh thông tin cơ bản (demo).
+Nếu đăng nhập không được, hãy mở server/data.js kiểm tra lại thông tin user, chỉnh sửa nếu cần và restart backend.
 
-🟣 Tutor demo
-Trong js/fake-db.js đã cấu hình sẵn một số tutor, ví dụ:
+6. Flow demo nhanh
 
-tutor.thoai@hcmut.edu.vn
+Chạy backend: node server.js (port 4000).
 
-tutor.huy@hcmut.edu.vn
+Chạy frontend: mở index.html bằng Live Server (hoặc http-server).
 
-Mật khẩu: nhập gì cũng được (miễn không để trống).
+Đăng nhập bằng student → xem Dashboard, Schedule, book slot, gửi feedback.
 
-Khi login bằng email trùng với một tutor:
-
-Role: tutor
-
-Dashboard & Schedule: chỉ hiện các session mà tutor đó phụ trách (lọc theo tutorId).
-
-Có thể dùng để demo góc nhìn của tutor so với student.
-
-🧭 Flow sử dụng nhanh
-1. Login
-Truy cập http://127.0.0.1:5500/index.html
-
-Nhập:
-
-Email student hoặc tutor @hcmut.edu.vn
-
-Password tùy ý (không rỗng)
-
-Nhấn Sign in → chuyển sang pages/dashboard.html
-
-2. Dashboard
-Thấy “Welcome back, {Tên} 👋”
-
-Thông tin current user: avatar, major, GPA, credits (hoặc — nếu là tutor)
-
-KPI: số sessions, feedback,… (fake theo dữ liệu demo)
-
-Bảng Upcoming Sections: danh sách buổi học / buổi support sắp diễn ra
-
-Nút Cancel minh hoạ hủy lịch (chỉ cập nhật trên fake DB, không gọi API thật).
-
-3. Schedule
-Liệt kê tất cả các buổi:
-
-Student → thấy tất cả buổi của mình
-
-Tutor → chỉ thấy buổi mình dạy
-
-Có nút Cancel tương tự Dashboard.
-
-4. Mentee Information
-Danh sách tutor (avatar + tên + môn).
-
-Nút View Availability → popup alert xem các slot rảnh (demo từ fake-db.js).
-
-5. Learning Resources
-Card danh sách tài liệu (PDF / Article / Video).
-
-Search/filter đơn giản bằng JavaScript.
-
-Nút Preview / View: mở modal hoặc link demo (fake link).
-
-6. Profile
-Hiển thị thông tin người đang login (student/tutor).
-
-Có form để chỉnh: name, email, major, GPA, credits, avatar URL,… (demo).
-
-Nút Save chỉ hiển thị alert, không gọi API thật.
-
-🧪 Ghi chú cho việc demo / báo cáo
-Đây là front-end demo: không có server-side auth hay database thật.
-
-“Database” được mô phỏng trong js/fake-db.js (danh sách user, tutor, sessions, resources, feedback…).
-
-Logic phân role:
-
-Login: nếu email trùng với một tutor trong fake-db.js → role = tutor
-
-Ngược lại → role = student
-
-Thông tin login + role được lưu trong localStorage, sau đó được phục hồi khi load các trang trong /pages.
-
-🧩 TODO / Hướng phát triển
-Kết nối với backend thật (Node.js / FastAPI / …).
-
-Thêm chức năng booking tutor (student chọn slot → gửi request).
-
-Thêm chức năng feedback sau buổi học.
-
-Thêm phân quyền UI rõ ràng giữa student / tutor / admin.
+Đăng nhập bằng tutor → xem Tutor Dashboard, Schedule + Availability, Mentees, Resources, Profile.
