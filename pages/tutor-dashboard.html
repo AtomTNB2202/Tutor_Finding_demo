@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Tutor Dashboard</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body class="bg-animated">
+  <div id="app">
+    <!-- Sidebar riêng cho Tutor -->
+    <div id="sidebar"></div>
+
+    <main class="content container">
+      <!-- HEADER -->
+      <header class="header-welcome fade-in">
+        <div class="left">
+          <h1 id="welcomeTitle">Welcome back, Tutor 👋</h1>
+          <p id="userSubTitle">OOP | Average rating | Credits: —</p>
+        </div>
+        <div class="right">
+          <img id="tutorAvatar" class="avatar-large"
+               src="https://i.pravatar.cc/120?img=12"
+               alt="Tutor avatar"/>
+        </div>
+      </header>
+
+      <!-- KPI ROW -->
+      <section class="kpi-row fade-in">
+        <div class="kpi-card kpi-blue">
+          <div class="kpi-main">
+            <div class="kpi-title">Mentees in Progress</div>
+            <div class="kpi-num" id="kpiMentees">0</div>
+          </div>
+          <i class="fa-solid fa-user-check kpi-icon"
+            title="Tutor is now online"></i>
+        </div>
+
+        <div class="kpi-card kpi-green">
+          <div class="kpi-main">
+            <div class="kpi-title">Upcoming Sections</div>
+            <div class="kpi-num" id="kpiIncoming">0</div>
+          </div>
+        </div>
+
+        <div class="kpi-card kpi-red">
+          <div class="kpi-main">
+            <div class="kpi-title">New Feedbacks</div>
+            <div class="kpi-num" id="kpiFeedbackTutor">0</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GRID: Upcoming Sections + Progress -->
+      <section class="grid-2 mt">
+        <!-- UPCOMING SECTIONS -->
+        <section class="card fade-in">
+          <h2>Upcoming Sections</h2>
+          <table class="table lift-on-hover" id="tutorUpcomingTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Mentee</th>
+                <th>Section</th>
+                <th>Type</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- JS sẽ fill -->
+            </tbody>
+          </table>
+        </section>
+
+        <!-- PROGRESS OVERVIEW (có thể dùng donut giống student) -->
+        <section class="card fade-in">
+          <h2>Progress Overview</h2>
+          <div class="donut-wrap">
+            <canvas id="progressDonutTutor" width="220" height="220"></canvas>
+            <div class="donut-center">
+              <span id="progressPercentTutor">80%</span>
+              <small>Completed</small>
+            </div>
+          </div>
+          <ul class="legend">
+            <li><span class="dot dot-blue"></span>Completed Sessions</li>
+            <li><span class="dot dot-gray"></span>Upcoming</li>
+          </ul>
+
+          <div class="recent-activity mt">
+            <h3 class="h3">Recent Activity</h3>
+            <ul id="tutorActivityList" class="list"></ul>
+          </div>
+        </section>
+      </section>
+
+      <!-- ANNOUNCEMENTS -->
+      <section class="card mt slide-up">
+        <h2>Important Announcements</h2>
+        <ul id="tutorAnnouncementList" class="ann-list"></ul>
+      </section>
+    </main>
+  </div>
+
+  <!-- Load sidebar tutor -->
+  <script>
+    // Nếu bạn đã tạo ../partials/sidebar-tutor.html thì dùng đường dẫn này.
+    // Nếu chưa có, tạm đổi thành '../partials/sidebar.html'
+    fetch('../partials/sidebar-tutor.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('sidebar').innerHTML = html;
+        const path = location.pathname.split('/').pop();
+        document
+          .querySelectorAll('.sidebar nav a')
+          .forEach(a => {
+            if (a.getAttribute('href') === path) {
+              a.classList.add('active');
+            }
+          });
+      });
+  </script>
+  <script src="../js/main.js"></script>
+</body>
+</html>
